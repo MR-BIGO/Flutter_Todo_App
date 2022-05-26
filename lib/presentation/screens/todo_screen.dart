@@ -1,8 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_todo/data/barrels/rep_barrel.dart';
 import 'package:flutter_todo/data/barrels/sheet_barrel.dart';
+import 'package:flutter_todo/logic/todo_provider.dart';
+import 'package:flutter_todo/presentation/bottom_sheets/edit_bottom_sheet.dart';
 import 'package:flutter_todo/presentation/widgets/list_item.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/src/provider.dart';
+
+
+final api = Api();
 
 class TodoScreen extends StatefulWidget {
   const TodoScreen({Key? key}) : super(key: key);
@@ -13,7 +19,7 @@ class TodoScreen extends StatefulWidget {
 
 class _TodoScreenState extends State<TodoScreen>
     with SingleTickerProviderStateMixin {
-  late Future<List<Todo>> futureTodo;
+  
 
   late AnimationController _controller;
   late Animation<Offset> offsetAnimation;
@@ -21,7 +27,7 @@ class _TodoScreenState extends State<TodoScreen>
   @override
   void initState() {
     super.initState();
-    futureTodo = fetchTodo();
+ 
     _controller = AnimationController(
       vsync: this,
       duration: const Duration(
@@ -47,6 +53,9 @@ class _TodoScreenState extends State<TodoScreen>
 
   @override
   Widget build(BuildContext context) {
+    
+   
+    final futureTodo = context.watch<TodoProvider>().futureTodo;
     return Scaffold(
       backgroundColor: Colors.white,
       body: FutureBuilder<List<Todo>>(
@@ -88,8 +97,8 @@ class _TodoScreenState extends State<TodoScreen>
                         onPressed: () {
                           showModalBottomSheet(
                             context: context,
-                            builder: (context) => buildAddSheet(),
-                          ).then((_) => Navigator.of(context).pop());
+                            builder: (context) => const BuildAddSheet(),
+                          );
                         },
                       ),
                     ),
@@ -105,10 +114,12 @@ class _TodoScreenState extends State<TodoScreen>
                         child: SlideTransition(
                           position: offsetAnimation,
                           child: ListView.builder(
+                            
                               itemCount: todos.length,
                               itemBuilder: (context, index) {
                                 final currentTodo = todos[index];
                                 return GestureDetector(
+                                  
                                   onLongPress: () {
                                     showModalBottomSheet(
                                         context: context,
@@ -135,6 +146,7 @@ class _TodoScreenState extends State<TodoScreen>
                                     title: currentTodo.title,
                                     task: currentTodo.description,
                                     isDone: currentTodo.isDone,
+                                    index: currentTodo.id,
                                   ),
                                 );
                               }),

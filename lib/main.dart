@@ -1,15 +1,16 @@
-import 'dart:io';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-
+import 'package:flutter_todo/logic/todo_provider.dart';
+import 'package:flutter_todo/presentation/screens/todo_screen.dart';
+import 'package:provider/provider.dart';
 import 'presentation/screens/login_screen.dart';
 
 void main() {
-  FlutterError.onError = (FlutterErrorDetails details) {
-    FlutterError.presentError(details);
-    if (kReleaseMode) exit(1);
-  };
-  runApp(const MyApp());
+  runApp(
+    ChangeNotifierProvider(
+      create: (context) => TodoProvider(),
+      child: const MyApp(),
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {
@@ -19,7 +20,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return const MaterialApp(
-      home: LoginScreen(),
+      home: TodoScreen(),
       title: 'todo_app',
     );
   }

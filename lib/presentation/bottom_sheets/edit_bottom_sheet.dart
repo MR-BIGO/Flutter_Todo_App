@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_todo/data/repository/todo_rep.dart';
+import 'package:flutter_todo/logic/todo_provider.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/src/provider.dart';
+
+
 
 class BuildEditSheet extends StatefulWidget {
-  const BuildEditSheet({
+    BuildEditSheet({
     Key? key,
     required this.id,
     required this.title,
@@ -15,6 +18,7 @@ class BuildEditSheet extends StatefulWidget {
   final String title;
   final bool isDone;
   final String description;
+  
 
   @override
   State<BuildEditSheet> createState() => _BuildEditSheetState();
@@ -49,6 +53,7 @@ class _BuildEditSheetState extends State<BuildEditSheet> {
               maxLines: null,
               minLines: null,
               controller: editID,
+              //initialValue: id.toString(),
               decoration: const InputDecoration(
                 enabledBorder: UnderlineInputBorder(
                     borderSide: BorderSide(color: Colors.white)),
@@ -75,6 +80,7 @@ class _BuildEditSheetState extends State<BuildEditSheet> {
               maxLines: null,
               minLines: null,
               controller: editTitle,
+              //initialValue: widget.title,
               decoration: const InputDecoration(
                 enabledBorder: UnderlineInputBorder(
                     borderSide: BorderSide(color: Colors.white)),
@@ -101,6 +107,7 @@ class _BuildEditSheetState extends State<BuildEditSheet> {
               maxLines: null,
               minLines: null,
               controller: editDescription,
+              //initialValue: widget.description,
               decoration: const InputDecoration(
                 enabledBorder: UnderlineInputBorder(
                     borderSide: BorderSide(color: Colors.white)),
@@ -140,8 +147,9 @@ class _BuildEditSheetState extends State<BuildEditSheet> {
                 ),
                 onPressed: () {
                   if (_formKey.currentState!.validate()) {
-                    updateTodo(int.parse(editID.text), editTitle.text, false,
+                    context.read<TodoProvider>().updateTodo(int.parse(editID.text), editTitle.text, false,
                         editDescription.text);
+                    Navigator.of(context).pop();
                   }
                 },
               ),

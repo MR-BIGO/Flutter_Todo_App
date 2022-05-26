@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_todo/data/barrels/rep_barrel.dart';
+import 'package:flutter_todo/logic/todo_provider.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/src/provider.dart';
 
 import 'edit_bottom_sheet.dart';
 
@@ -40,32 +41,50 @@ class BuildDetailsSheet extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Container(
+              SizedBox(
                 width: 80,
                 height: 80,
-                decoration: BoxDecoration(
-                    color: const Color(0xff6CB4B1),
-                    borderRadius: BorderRadius.circular(10)),
-                child: IconButton(
-                  icon: const Icon(
-                    Icons.done,
-                    color: Colors.white,
-                    size: 40,
+                child: FloatingActionButton(
+                  elevation: 0,
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10)),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: const [
+                      Icon(
+                        Icons.done,
+                        color: Colors.white,
+                        size: 40,
+                      ),
+                      Text("DONE")
+                    ],
                   ),
-                  onPressed: () {},
+                  backgroundColor: isDone
+                      ? const Color(0xff0ECC57)
+                      : const Color(0xff6CB4B1),
+                  onPressed: () {
+                    context.read<TodoProvider>().todoDone(id, !isDone);
+                  },
                 ),
               ),
-              Container(
+              SizedBox(
                 width: 80,
                 height: 80,
-                decoration: BoxDecoration(
-                    color: const Color(0xff6CB4B1),
-                    borderRadius: BorderRadius.circular(10)),
-                child: IconButton(
-                  icon: const Icon(
-                    Icons.edit,
-                    color: Colors.white,
-                    size: 40,
+                child: FloatingActionButton(
+                  backgroundColor: const Color(0xff6CB4B1),
+                  elevation: 0,
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10)),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: const [
+                      Icon(
+                        Icons.edit,
+                        color: Colors.white,
+                        size: 40,
+                      ),
+                      Text("EDIT")
+                    ],
                   ),
                   onPressed: () {
                     showModalBottomSheet(
@@ -81,22 +100,28 @@ class BuildDetailsSheet extends StatelessWidget {
                   },
                 ),
               ),
-              Container(
+              SizedBox(
                 width: 80,
                 height: 80,
-                decoration: BoxDecoration(
-                    color: const Color(0xff6CB4B1),
-                    borderRadius: BorderRadius.circular(10)),
-                child: IconButton(
-                  icon: const Icon(
-                    Icons.delete,
-                    color: Colors.white,
-                    size: 40,
+                child: FloatingActionButton(
+                  backgroundColor: const Color(0xff6CB4B1),
+                  elevation: 0,
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10)),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: const [
+                      Icon(
+                        Icons.delete,
+                        color: Colors.white,
+                        size: 40,
+                      ),
+                      Text("DELETE")
+                    ],
                   ),
                   onPressed: () {
-                    deleteTodo(id).then((_) {
-                      Navigator.of(context).pop();
-                    });
+                    context.read<TodoProvider>().deleteTodo(id);
+                    Navigator.pop(context);
                   },
                 ),
               ),
@@ -112,6 +137,7 @@ class BuildDetailsSheet extends StatelessWidget {
                 width: 150,
                 height: 40,
                 child: FloatingActionButton(
+                  heroTag: 'detailsBtn',
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(12)),
                   elevation: 0,
