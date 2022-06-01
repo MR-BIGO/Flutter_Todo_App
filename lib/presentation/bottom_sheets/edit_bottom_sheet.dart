@@ -3,10 +3,8 @@ import 'package:flutter_todo/logic/todo_provider.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/src/provider.dart';
 
-
-
 class BuildEditSheet extends StatefulWidget {
-    BuildEditSheet({
+  const BuildEditSheet({
     Key? key,
     required this.id,
     required this.title,
@@ -18,24 +16,23 @@ class BuildEditSheet extends StatefulWidget {
   final String title;
   final bool isDone;
   final String description;
-  
 
   @override
   State<BuildEditSheet> createState() => _BuildEditSheetState();
 }
 
 class _BuildEditSheetState extends State<BuildEditSheet> {
-  late TextEditingController editID;
-  late TextEditingController editTitle;
-  late TextEditingController editDescription;
-
   final _formKey = GlobalKey<FormState>();
+
+    late TextEditingController editID = TextEditingController(text: widget.id.toString());
+    late TextEditingController editTitle = TextEditingController(text: widget.title);
+    late TextEditingController editDescription = TextEditingController(text: widget.description);
+
 
   @override
   Widget build(BuildContext context) {
-    editID = TextEditingController(text: widget.id.toString());
-    editTitle = TextEditingController(text: widget.title);
-    editDescription = TextEditingController(text: widget.description);
+
+
     return Container(
       padding: const EdgeInsets.fromLTRB(30, 10, 30, 10),
       color: const Color(0xff04a3a3),
@@ -52,8 +49,9 @@ class _BuildEditSheetState extends State<BuildEditSheet> {
               cursorColor: Colors.white,
               maxLines: null,
               minLines: null,
+              autocorrect: false,
               controller: editID,
-              //initialValue: id.toString(),
+              //initialValue: currentID.text,
               decoration: const InputDecoration(
                 enabledBorder: UnderlineInputBorder(
                     borderSide: BorderSide(color: Colors.white)),
@@ -79,8 +77,9 @@ class _BuildEditSheetState extends State<BuildEditSheet> {
               cursorColor: Colors.white,
               maxLines: null,
               minLines: null,
+              autocorrect: false,
               controller: editTitle,
-              //initialValue: widget.title,
+              //initialValue: currentTitle.text,
               decoration: const InputDecoration(
                 enabledBorder: UnderlineInputBorder(
                     borderSide: BorderSide(color: Colors.white)),
@@ -106,8 +105,9 @@ class _BuildEditSheetState extends State<BuildEditSheet> {
               cursorColor: Colors.white,
               maxLines: null,
               minLines: null,
+              autocorrect: false,
               controller: editDescription,
-              //initialValue: widget.description,
+              //initialValue: currentDescription.text,
               decoration: const InputDecoration(
                 enabledBorder: UnderlineInputBorder(
                     borderSide: BorderSide(color: Colors.white)),
@@ -139,15 +139,20 @@ class _BuildEditSheetState extends State<BuildEditSheet> {
                 child: Text(
                   'EDIT',
                   style: GoogleFonts.poppins(
-                      textStyle: const TextStyle(
-                          letterSpacing: 0,
-                          fontSize: 18,
-                          fontWeight: FontWeight.w700,
-                          color: Color(0xff04a3a3))),
+                    textStyle: const TextStyle(
+                      letterSpacing: 0,
+                      fontSize: 18,
+                      fontWeight: FontWeight.w700,
+                      color: Color(0xff04a3a3),
+                    ),
+                  ),
                 ),
                 onPressed: () {
                   if (_formKey.currentState!.validate()) {
-                    context.read<TodoProvider>().updateTodo(int.parse(editID.text), editTitle.text, false,
+                    context.read<TodoProvider>().updateTodo(
+                        int.parse(editID.text),
+                        editTitle.text,
+                        false,
                         editDescription.text);
                     Navigator.of(context).pop();
                   }

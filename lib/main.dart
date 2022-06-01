@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_todo/logic/todo_provider.dart';
-import 'package:flutter_todo/presentation/screens/todo_screen.dart';
 import 'package:provider/provider.dart';
 import 'presentation/screens/login_screen.dart';
 
@@ -20,7 +19,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return const MaterialApp(
-      home: TodoScreen(),
+      home: LoginScreen(),
       title: 'todo_app',
     );
   }

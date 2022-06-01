@@ -7,7 +7,6 @@ import 'package:flutter_todo/presentation/widgets/list_item.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/src/provider.dart';
 
-
 final api = Api();
 
 class TodoScreen extends StatefulWidget {
@@ -19,15 +18,13 @@ class TodoScreen extends StatefulWidget {
 
 class _TodoScreenState extends State<TodoScreen>
     with SingleTickerProviderStateMixin {
-  
-
   late AnimationController _controller;
   late Animation<Offset> offsetAnimation;
 
   @override
   void initState() {
     super.initState();
- 
+
     _controller = AnimationController(
       vsync: this,
       duration: const Duration(
@@ -53,8 +50,6 @@ class _TodoScreenState extends State<TodoScreen>
 
   @override
   Widget build(BuildContext context) {
-    
-   
     final futureTodo = context.watch<TodoProvider>().futureTodo;
     return Scaffold(
       backgroundColor: Colors.white,
@@ -114,42 +109,42 @@ class _TodoScreenState extends State<TodoScreen>
                         child: SlideTransition(
                           position: offsetAnimation,
                           child: ListView.builder(
-                            
-                              itemCount: todos.length,
-                              itemBuilder: (context, index) {
-                                final currentTodo = todos[index];
-                                return GestureDetector(
-                                  
-                                  onLongPress: () {
-                                    showModalBottomSheet(
-                                        context: context,
-                                        builder: (context) => BuildEditSheet(
-                                              id: currentTodo.id,
-                                              title: currentTodo.title,
-                                              isDone: currentTodo.isDone,
-                                              description:
-                                                  currentTodo.description,
-                                            ));
-                                  },
-                                  onTap: () {
-                                    showModalBottomSheet(
-                                        context: context,
-                                        builder: (context) => BuildDetailsSheet(
-                                              id: currentTodo.id,
-                                              title: currentTodo.title,
-                                              isDone: currentTodo.isDone,
-                                              description:
-                                                  currentTodo.description,
-                                            ));
-                                  },
-                                  child: ListItem(
-                                    title: currentTodo.title,
-                                    task: currentTodo.description,
-                                    isDone: currentTodo.isDone,
-                                    index: currentTodo.id,
-                                  ),
-                                );
-                              }),
+                            itemCount: todos.length,
+                            itemBuilder: (context, index) {
+                              final currentTodo = todos[index];
+                              return GestureDetector(
+                                onLongPress: () {
+                                  showModalBottomSheet(
+                                    context: context,
+                                    builder: (context) => BuildEditSheet(
+                                      id: currentTodo.id,
+                                      title: currentTodo.title,
+                                      isDone: currentTodo.isDone,
+                                      description: currentTodo.description,
+                                    ),
+                                  );
+                                },
+                                onTap: () {
+                                  showModalBottomSheet(
+                                    context: context,
+                                    builder: (context) => BuildDetailsSheet(
+                                      todo: currentTodo,
+                                      id: currentTodo.id,
+                                      title: currentTodo.title,
+                                      isDone: currentTodo.isDone,
+                                      description: currentTodo.description,
+                                    ),
+                                  );
+                                },
+                                child: ListItem(
+                                  title: currentTodo.title,
+                                  task: currentTodo.description,
+                                  isDone: currentTodo.isDone,
+                                  index: currentTodo.id,
+                                ),
+                              );
+                            },
+                          ),
                         ),
                         decoration: const ShapeDecoration(
                           color: Color(0xff6CB4B1),

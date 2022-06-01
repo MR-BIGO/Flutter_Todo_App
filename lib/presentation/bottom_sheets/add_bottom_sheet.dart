@@ -5,7 +5,6 @@ import 'package:provider/src/provider.dart';
 
 final _formKey = GlobalKey<FormState>();
 
-
 TextEditingController newID = TextEditingController();
 TextEditingController newTitle = TextEditingController();
 TextEditingController newDescription = TextEditingController();
@@ -115,34 +114,35 @@ class BuildAddSheet extends StatelessWidget {
                   width: 150,
                   height: 40,
                   child: FloatingActionButton(
-                      heroTag: "addBtn",
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(12)),
-                      elevation: 0,
-                      backgroundColor: Colors.white,
-                      child: Text(
-                        'SUBMIT',
-                        style: GoogleFonts.poppins(
-                            textStyle: const TextStyle(
-                                letterSpacing: 0,
-                                fontSize: 18,
-                                fontWeight: FontWeight.w700,
-                                color: Color(0xff04a3a3))),
-                      ),
-                      onPressed: () {
-                        try {
-                          if (_formKey.currentState!.validate()) {
-                            context.read<TodoProvider>().addTodo(
-                                int.parse(newID.text),
-                                newTitle.text,
-                                false,
-                                newDescription.text);
-                          }
-                          Navigator.pop(context);
-                        } catch (e) {
-                          throw Exception(e);
+                    heroTag: "addBtn",
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(12)),
+                    elevation: 0,
+                    backgroundColor: Colors.white,
+                    child: Text(
+                      'SUBMIT',
+                      style: GoogleFonts.poppins(
+                          textStyle: const TextStyle(
+                              letterSpacing: 0,
+                              fontSize: 18,
+                              fontWeight: FontWeight.w700,
+                              color: Color(0xff04a3a3))),
+                    ),
+                    onPressed: () {
+                      try {
+                        if (_formKey.currentState!.validate()) {
+                          context.read<TodoProvider>().addTodo(
+                              int.parse(newID.text),
+                              newTitle.text,
+                              false,
+                              newDescription.text);
                         }
-                      }),
+                        Navigator.pop(context);
+                      } catch (e) {
+                        throw Exception(e);
+                      }
+                    },
+                  ),
                 ),
               ],
             )

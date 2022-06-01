@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_todo/data/model/todo.dart';
 import 'package:flutter_todo/logic/todo_provider.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/src/provider.dart';
@@ -8,12 +9,14 @@ import 'edit_bottom_sheet.dart';
 class BuildDetailsSheet extends StatelessWidget {
   const BuildDetailsSheet(
       {Key? key,
+      required this.todo,
       required this.id,
       required this.title,
       required this.isDone,
       required this.description})
       : super(key: key);
 
+  final Todo todo;
   final int id;
   final String title;
   final bool isDone;
@@ -46,6 +49,9 @@ class BuildDetailsSheet extends StatelessWidget {
                 height: 80,
                 child: FloatingActionButton(
                   elevation: 0,
+                  backgroundColor: isDone
+                      ? const Color(0xff0ECC57)
+                      : const Color(0xff6CB4B1),
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(10)),
                   child: Column(
@@ -59,9 +65,6 @@ class BuildDetailsSheet extends StatelessWidget {
                       Text("DONE")
                     ],
                   ),
-                  backgroundColor: isDone
-                      ? const Color(0xff0ECC57)
-                      : const Color(0xff6CB4B1),
                   onPressed: () {
                     context.read<TodoProvider>().todoDone(id, !isDone);
                   },
@@ -87,16 +90,16 @@ class BuildDetailsSheet extends StatelessWidget {
                     ],
                   ),
                   onPressed: () {
+                    Navigator.of(context).pop();
                     showModalBottomSheet(
-                        context: context,
-                        builder: (context) => BuildEditSheet(
-                              id: id,
-                              title: title,
-                              isDone: isDone,
-                              description: description,
-                            )).then((_) {
-                      Navigator.of(context).pop();
-                    });
+                      context: context,
+                      builder: (context) => BuildEditSheet(
+                        id: id,
+                        title: title,
+                        isDone: isDone,
+                        description: description,
+                      ),
+                    );
                   },
                 ),
               ),
@@ -120,8 +123,35 @@ class BuildDetailsSheet extends StatelessWidget {
                     ],
                   ),
                   onPressed: () {
-                    context.read<TodoProvider>().deleteTodo(id);
-                    Navigator.pop(context);
+                    showDialog(
+                      context: context,
+                      builder: (BuildContext context) => AlertDialog(
+                        backgroundColor: Colors.white,
+                        title: const Text(
+                          "Are you sure you want to delete this task?",
+                          style: TextStyle(
+                            fontSize: 16,
+                            color: Colors.black,
+                          ),
+                        ),
+                        actions: [
+                          TextButton(
+                            onPressed: () {
+                              Navigator.pop(context);
+                            },
+                            child: const Text("cancel"),
+                          ),
+                          TextButton(
+                            onPressed: () {
+                              context.read<TodoProvider>().deleteTodo(id);
+                              Navigator.pop(context);
+                              Navigator.pop(context);
+                            },
+                            child: const Text("ok"),
+                          ),
+                        ],
+                      ),
+                    );
                   },
                 ),
               ),
@@ -152,7 +182,9 @@ class BuildDetailsSheet extends StatelessWidget {
                           color: Color(0xff04a3a3)),
                     ),
                   ),
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
                 ),
               ),
             ],
