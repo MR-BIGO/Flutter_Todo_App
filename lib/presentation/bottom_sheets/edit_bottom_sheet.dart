@@ -24,15 +24,15 @@ class BuildEditSheet extends StatefulWidget {
 class _BuildEditSheetState extends State<BuildEditSheet> {
   final _formKey = GlobalKey<FormState>();
 
-    late TextEditingController editID = TextEditingController(text: widget.id.toString());
-    late TextEditingController editTitle = TextEditingController(text: widget.title);
-    late TextEditingController editDescription = TextEditingController(text: widget.description);
-
+  late TextEditingController editID =
+      TextEditingController(text: widget.id.toString());
+  late TextEditingController editTitle =
+      TextEditingController(text: widget.title);
+  late TextEditingController editDescription =
+      TextEditingController(text: widget.description);
 
   @override
   Widget build(BuildContext context) {
-
-
     return Container(
       padding: const EdgeInsets.fromLTRB(30, 10, 30, 10),
       color: const Color(0xff04a3a3),
