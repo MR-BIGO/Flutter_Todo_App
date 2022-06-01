@@ -8,7 +8,7 @@ Application is connected to the following server -> https://github.com/Xsideligh
 ## Application examples
 
 
-<img src="https://user-images.githubusercontent.com/74029793/171506119-18ddea59-7602-48d4-ba57-14d7a61bd8b2.png" width="250" height="400">
+<img src="https://user-images.githubusercontent.com/74029793/171506119-18ddea59-7602-48d4-ba57-14d7a61bd8b2.png" width="135" height="240">
 
 ![Screenshot_1654118864](https://user-images.githubusercontent.com/74029793/171505724-f51e193b-de67-4e41-8fef-c5365d2649da.png)
 
